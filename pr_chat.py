@@ -4,7 +4,7 @@ from llama_index.llms import OpenAI
 import openai
 from llama_index import SimpleDirectoryReader
 
-
+export GITHUB_TOKEN='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'
 import os
 
 from llama_index import download_loader
@@ -12,7 +12,7 @@ download_loader("GithubRepositoryReader")
 
 from llama_hub.github_repo import GithubRepositoryReader, GithubClient
 
-github_client = GithubClient(os.getenv("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"))
+github_client = GithubClient(os.getenv("GITHUB_TOKEN"))
 loader = GithubRepositoryReader(
     github_client,
     owner =                  "Joggyjagz7",
