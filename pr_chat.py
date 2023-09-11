@@ -5,19 +5,6 @@ import openai
 from llama_index import SimpleDirectoryReader
 
 
-
-loader = SimpleDirectoryReader('./data', recursive=True, exclude_hidden=True)
-documents = loader.load_data()
-index = GPTVectorStoreIndex.from_documents(documents)
-
-tools = [
-    Tool(
-        name="Local Directory Index",
-        func=lambda q: index.query(q),
-        description=f"Useful when you want answer questions about the files in your local directory.",
-    ),
-]
-
 openai.api_key = "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"
 
 st.set_page_config(page_title="Proactive Repair Pal", page_icon="👷‍♀️🛠️", layout="centered", initial_sidebar_state="auto", menu_items=None)
