@@ -23,7 +23,7 @@ def load_data():
     with st.spinner(text="Loading...."):
         reader = SimpleDirectoryReader(input_dir="./data", recursive=True)
         docs = reader.load_data()
-        service_context = ServiceContext.from_defaults(llm=OpenAI(model="text-davinci-003", temperature=0.5 , max_tokens=num_outputs system_prompt="Hello"))
+        service_context = ServiceContext.from_defaults(llm=OpenAI(model="text-davinci-003", temperature=0.5 , max_tokens=num_outputs, system_prompt="Hello"))
         index = VectorStoreIndex.from_documents(docs, service_context=service_context)
         return index
 
