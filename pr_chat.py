@@ -7,9 +7,9 @@ from llama_index import SimpleDirectoryReader
 from pathlib import Path
 from llama_index import download_loader
 
-#PandasExcelReader = download_loader("PandasExcelReader")
-#loader = PandasExcelReader()
-#documents = loader.load_data(file=Path('dir1/excel.xlsx'), sheet_index=None)
+PandasExcelReader = download_loader("PandasExcelReader")
+loader = PandasExcelReader()
+documents = loader.load_data(file=Path('https://github.com/Joggyjagz7/test-proactive-chatbot/blob/main/jobs_since_2021_with_complaints.xlsx'), sheet_index=None)
 
 openai.api_key = "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"
 
