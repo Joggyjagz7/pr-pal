@@ -1,9 +1,4 @@
-langchain
+streamlit
 openai
 llama-index
-llama_index
-pandasai
-pdfplumber
-pypdf
-streamlit
-streamlit-chat
+nltk
