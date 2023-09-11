@@ -5,8 +5,9 @@ import openai
 from llama_index import SimpleDirectoryReader
 import os
 
-openai.api_key="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"
-num_outputs = 512
+#openai.api_key="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"
+openai.api_key = "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"
+#num_outputs = 512
 
 st.set_page_config(page_title="Proactive Repair Pal", page_icon="👷‍♀️🛠️", layout="centered", initial_sidebar_state="auto", menu_items=None)
 st.title("Proactive Repair Pal👷‍♀️🛠️")
