@@ -6,8 +6,7 @@ from llama_index import SimpleDirectoryReader
 import os
 from langchain.llms.openai import OpenAI
 
-
- os.environ['OPENAI_API_KEY']= "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"
+os.environ['OPENAI_API_KEY']= "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"
 
 st.set_page_config(page_title="Proactive Repair Pal", page_icon="👷‍♀️🛠️", layout="centered", initial_sidebar_state="auto", menu_items=None)
 st.title("Proactive Repair Pal👷‍♀️🛠️")
