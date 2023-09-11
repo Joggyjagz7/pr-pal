@@ -1,6 +1,7 @@
 langchain
 openai
 llama-index
+llama_index
 pandasai
 pdfplumber
 pypdf
