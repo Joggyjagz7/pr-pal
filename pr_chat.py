@@ -6,10 +6,22 @@ from llama_index import SimpleDirectoryReader
 
 from pathlib import Path
 from llama_index import download_loader
+from llama_hub.file.base import SimpleDirectoryReader
+from llama_index import GPTVectorStoreIndex
+from langchain.agents import initialize_agent, Tool
 
-PandasExcelReader = download_loader("PandasExcelReader")
-loader = PandasExcelReader()
-documents = loader.load_data(file=Path('https://github.com/Joggyjagz7/test-proactive-chatbot/blob/main/jobs_since_2021_with_complaints.xlsx'), sheet_index=None)
+
+loader = SimpleDirectoryReader('./data', recursive=True, exclude_hidden=True)
+documents = loader.load_data()
+index = GPTVectorStoreIndex.from_documents(documents)
+
+tools = [
+    Tool(
+        name="Local Directory Index",
+        func=lambda q: index.query(q),
+        description=f"Useful when you want answer questions about the files in your local directory.",
+    ),
+]
 
 openai.api_key = "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"
 
@@ -22,21 +34,21 @@ if "messages" not in st.session_state.keys(): # Initialize the chat messages his
     st.session_state.messages = [
         {"role": "assistant", "content": "Ask me about your tasks!"}
     ]
-
 @st.cache_resource(show_spinner=False)
 def load_data():
     with st.spinner(text="Loading..."):
-        reader = SimpleDirectoryReader(input_dir=" ", recursive=True)
+        reader = SimpleDirectoryReader(input_dir="./data", recursive=True)
         docs = reader.load_data()
-        service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-3.5-turbo", temperature=0.5, system_prompt=" "))
+        service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-3.5-turbo", temperature=0.05, system_prompt="You are an expert on the Streamlit Python library and your job is to answer technical questions. Assume that all questions are related to the Streamlit Python library. Keep your answers technical and based on facts – do not hallucinate features."))
         index = VectorStoreIndex.from_documents(docs, service_context=service_context)
         return index
 
-#index = load_data()
-# chat_engine = index.as_chat_engine(chat_mode="condense_question", verbose=True, system_prompt="You are an expert on t.")
-#chat_engine = index.as_chat_engine(chat_mode="condense_question", verbose=True)
 
-if prompt := st.chat_input("Your question"): # Prompt for user input and save to chat history
+index = load_data()
+# chat_engine = index.as_chat_engine(chat_mode="condense_question", verbose=True, system_prompt="You are an expert on t.")
+chat_engine = index.as_chat_engine(chat_mode="condense_question", verbose=True)
+
+if prompt := st.chat_input("How can I help you today?"): # Prompt for user input and save to chat history
     st.session_state.messages.append({"role": "user", "content": prompt})
 
 for message in st.session_state.messages: # Display the prior chat messages
