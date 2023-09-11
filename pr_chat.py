@@ -20,7 +20,7 @@ if "messages" not in st.session_state.keys(): # Initialize the chat messages his
 
 @st.cache_resource(show_spinner=False)
 def load_data():
-    with st.spinner(text="Loading...."):
+    with st.spinner(text="Loading the data...."):
         reader = SimpleDirectoryReader(input_dir="./data", recursive=True)
         docs = reader.load_data()
         service_context = ServiceContext.from_defaults(llm=OpenAI(model="text-davinci-003", temperature=0.5 , max_tokens=num_outputs, system_prompt="Hello"))
