@@ -1,0 +1,8 @@
+langchain
+openai
+llama-index
+pandasai
+pdfplumber
+pypdf
+streamlit
+streamlit-chat
