@@ -4,11 +4,6 @@ from llama_index.llms import OpenAI
 import openai
 from llama_index import SimpleDirectoryReader
 
-from pathlib import Path
-from llama_index import download_loader
-from llama_hub.file.base import SimpleDirectoryReader
-from llama_index import GPTVectorStoreIndex
-from langchain.agents import initialize_agent, Tool
 
 
 loader = SimpleDirectoryReader('./data', recursive=True, exclude_hidden=True)
