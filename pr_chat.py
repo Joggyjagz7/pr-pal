@@ -5,6 +5,32 @@ import openai
 from llama_index import SimpleDirectoryReader
 
 
+import os
+
+from llama_index import download_loader
+download_loader("GithubRepositoryReader")
+
+from llama_hub.github_repo import GithubRepositoryReader, GithubClient
+
+github_client = GithubClient(os.getenv("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"))
+loader = GithubRepositoryReader(
+    github_client,
+    owner =                  "Joggyjagz7",
+    repo =                   "pr-pal",
+    filter_directories =     (["gpt_index", "docs"], GithubRepositoryReader.FilterType.INCLUDE),
+    filter_file_extensions = ([".csv"], GithubRepositoryReader.FilterType.INCLUDE),
+    verbose =                True,
+    concurrent_requests =    10,
+)
+
+docs = loader.load_data(branch="main")
+# alternatively, load from a specific commit:
+# docs = loader.load_data(commit_sha="a6c89159bf8e7086bea2f4305cff3f0a4102e370")
+
+for doc in docs:
+    print(doc.extra_info)
+
+
 openai.api_key = "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"
 
 st.set_page_config(page_title="Proactive Repair Pal", page_icon="👷‍♀️🛠️", layout="centered", initial_sidebar_state="auto", menu_items=None)
@@ -20,7 +46,7 @@ if "messages" not in st.session_state.keys(): # Initialize the chat messages his
 @st.cache_resource(show_spinner=False)
 def load_data():
     with st.spinner(text="Loading...."):
-        reader = SimpleDirectoryReader(input_dir="./data", recursive=True)
+        reader = SimpleDirectoryReader(input_dir="./data/jobscomplaint.csv", recursive=True)
         docs = reader.load_data()
         service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-3.5-turbo", temperature=0.5, system_prompt="Hello"))
         index = VectorStoreIndex.from_documents(docs, service_context=service_context)
