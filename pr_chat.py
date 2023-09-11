@@ -3,8 +3,10 @@ from llama_index import VectorStoreIndex, ServiceContext, Document
 from llama_index.llms import OpenAI
 import openai
 from llama_index import SimpleDirectoryReader
+import os
 
-openai.api_key = os.environ["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"]
+openai_key = = "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"
+num_outputs = 512
 
 st.set_page_config(page_title="Proactive Repair Pal", page_icon="👷‍♀️🛠️", layout="centered", initial_sidebar_state="auto", menu_items=None)
 st.title("Proactive Repair Pal👷‍♀️🛠️")
@@ -21,7 +23,7 @@ def load_data():
     with st.spinner(text="Loading...."):
         reader = SimpleDirectoryReader(input_dir="./data", recursive=True)
         docs = reader.load_data()
-        service_context = ServiceContext.from_defaults(llm=OpenAI(model="gpt-4", temperature=0.5, system_prompt="Hello"))
+        service_context = ServiceContext.from_defaults(llm=OpenAI(model="text-davinci-003", temperature=0.5 , max_tokens=num_outputs system_prompt="Hello"))
         index = VectorStoreIndex.from_documents(docs, service_context=service_context)
         return index
 
